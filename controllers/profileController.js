@@ -101,7 +101,7 @@ export const updateProfile = expressAsyncHandler(async (req, res) => {
 
 // GET: /api/contacts/profilepic
 export const getProfilePic = expressAsyncHandler(async (req, res) => {
-  const profile = await Profile.findOne({ userId: req.adminId })
+  const profile = await Profile.findOne()
   if (!profile?.profilepic) {
     return res.status(404).json({ message: 'Profile picture not found' })
   }
@@ -109,31 +109,31 @@ export const getProfilePic = expressAsyncHandler(async (req, res) => {
 })
 
 // PATCH: /api/contacts/profilepic
-export const updateProfilePic = expressAsyncHandler(async (req, res) => {
-  const { profilepic } = req.files || {}
-  if (!profilepic?.[0]) {
-    return res.status(400).json({ message: 'Profile picture is required' })
-  }
+// export const updateProfilePic = expressAsyncHandler(async (req, res) => {
+//   const { profilepic } = req.files || {}
+//   if (!profilepic?.[0]) {
+//     return res.status(400).json({ message: 'Profile picture is required' })
+//   }
 
-  const profile = await Profile.findOne({ userId: req.adminId })
-  if (!profile) {
-    return res.status(404).json({ message: 'Profile not found' })
-  }
+//   const profile = await Profile.findOne({ userId: req.adminId })
+//   if (!profile) {
+//     return res.status(404).json({ message: 'Profile not found' })
+//   }
 
-  profile.profilepic = {
-    url: profilepic[0].path,
-    public_id: profilepic[0].filename,
-  }
+//   profile.profilepic = {
+//     url: profilepic[0].path,
+//     public_id: profilepic[0].filename,
+//   }
 
-  await profile.save()
-  res.json({ message: 'Profile picture updated successfully' })
-})
+//   await profile.save()
+//   res.json({ message: 'Profile picture updated successfully' })
+// })
 
 // GET: /api/contacts/resume
 
 // Download resume with custom filename
 export const getResume = expressAsyncHandler(async (req, res) => {
-  const profile = await Profile.findOne({ userId: req.adminId });
+  const profile = await Profile.findOne();
 
   if (!profile?.resume?.url) {
     return res.status(404).json({ message: 'Resume not found' });
@@ -159,7 +159,7 @@ export const getResume = expressAsyncHandler(async (req, res) => {
 
 // GET: /api/contacts/social-links
 export const getSocialLinks = expressAsyncHandler(async (req, res) => {
-  const profile = await Profile.findOne({ userId: req.adminId })
+  const profile = await Profile.findOne()
   if (!profile?.socialLinks) {
     return res.status(404).json({ message: 'Social links not found' })
   }
