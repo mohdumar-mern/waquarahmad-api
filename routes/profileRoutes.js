@@ -7,10 +7,10 @@ import {  getProfile, getProfilePic, getResume, getSocialLinks, updateProfile } 
 const router = express.Router()
 
 // POST /api/profile
-router.get('/', protect, getProfile)
-router.get('/pic', protect, getProfilePic)
-router.get('/resume', protect, getResume)
-router.get('/social-links', protect, getSocialLinks)
+router.get('/', getProfile)
+router.get('/pic', getProfilePic)
+router.get('/resume', getResume)
+router.get('/social-links', getSocialLinks)
 // router.post(
 //   '/',
 //   protect,

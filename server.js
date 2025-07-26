@@ -11,7 +11,7 @@ const startServer = async () => {
   await connectDB();
 //   await redisClient.connect(); // already connected in redis.js, so optional
   app.listen(PORT, () => {
-    console.log(`🚀 Server running on http://localhost:${PORT}`);
+    console.log(` Server running on port ${PORT}`);
     keepAlive()
   });
 };

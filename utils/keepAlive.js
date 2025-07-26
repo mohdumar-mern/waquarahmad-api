@@ -1,15 +1,17 @@
-import axios from "axios";
+import fetch from 'node-fetch';
 
-// For production, replace with your deployed frontend/backend URL
-const SELF_URL = "http://localhost:3000"; // 🔁 change to your Render/Vercel URL
+// ✅ Recommended: Use environment variable for deployed URL
+const SELF_URL = process.env.SELF_URL || "http://localhost:3000";
 
+// ✅ Call this function in production only
 export const keepAlive = () => {
+  // Ping every 14 minutes
   setInterval(async () => {
     try {
-      const res = await axios.get(SELF_URL);
-      console.log("✅ Self-ping:", res.status);
+      const res = await fetch(SELF_URL);
+      console.log("Self-ping successful. Status:", res.status);
     } catch (err) {
-      console.error("❌ Self-ping error:", err.message);
+      console.error("Self-ping error:", err.message);
     }
-  }, 1000 * 60 * 9); // every 9 minutes
+  }, 1000 * 60 * 14); // 14 minutes
 };
