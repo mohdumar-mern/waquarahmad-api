@@ -46,47 +46,45 @@ export const addProject = expressAsyncHandler(async (req, res) => {
 // ✅ @desc: Get all projects with pagination + search
 // ✅ @route: GET /api/projects
 export const projects = expressAsyncHandler(async (req, res) => {
-  const { page = 1, limit = 10, search = "", featured = '' } = req.query;
+  const { page = 1, limit = 10, search = "", featured = "" } = req.query;
+
+  const query = {};
+
+  if (search) {
+    query.$or = [{ title: { $regex: search, $options: "i" } }];
+  }
+
+  if (featured !== "") {
+    query.featured = featured === "true";
+  }
 
   const options = {
     page: parseInt(page),
     limit: parseInt(limit),
+    sort: { updatedAt: -1 },
     lean: true,
-    sort: { updatedAt: -1 }
   };
 
-  let query = {};
-  if (search) {
-    query.$or = [
-      { title: { $regex: search, $options: "i" } },
-    ];
-  }
+  const result = await Project.paginate(query, options);
 
-  if (featured) {
-    query.featured = featured === "true";
-  }
-
-  const projects = await Project.paginate(query, options);
-
-  if (!projects || projects.docs.length === 0) {
+  if (!result.docs.length) {
     return res.status(404).json({ message: "No projects found" });
   }
 
   res.status(200).json({
-    data: projects.docs,
+    data: result.docs,
     pagination: {
-      totalDocs: projects.totalDocs,
-      limit: projects.limit,
-      totalPages: projects.totalPages,
-      currentPage: projects.page,
-      hasPrevPage: projects.hasPrevPage,
-      hasNextPage: projects.hasNextPage,
-      prevPage: projects.prevPage,
-      nextPage: projects.nextPage,
+      totalDocs: result.totalDocs,
+      limit: result.limit,
+      totalPages: result.totalPages,
+      currentPage: result.page,
+      hasPrevPage: result.hasPrevPage,
+      hasNextPage: result.hasNextPage,
+      prevPage: result.prevPage,
+      nextPage: result.nextPage,
     },
   });
 });
-
 
 // ✅ @desc: Get single project by ID
 // ✅ @route: GET /api/projects/:id

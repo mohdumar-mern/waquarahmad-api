@@ -18,6 +18,9 @@ import profileRoutes from './routes/profileRoutes.js';
 
 const app = express();
 
+// app.use(express.static('public'));
+app.set("view engine", "ejs");
+
   
 // Middleware
 app.use(cors({
@@ -34,6 +37,8 @@ app.use(limiter);
 
 
 // Routes
+
+
 app.get('/', (req, res) =>{
     res.send("Hey Animatorv...")
 })

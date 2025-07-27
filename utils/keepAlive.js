@@ -13,5 +13,5 @@ export const keepAlive = () => {
     } catch (err) {
       console.error("Self-ping error:", err.message);
     }
-  }, 1000 * 60 * 14); // 14 minutes
+  }, 1000 * 60 * 9); // 9 minutes
 };
