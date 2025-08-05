@@ -23,9 +23,19 @@ app.set("view engine", "ejs");
 
   
 // Middleware
+const allowedOrigins = [
+  'https://waquarahmad.vercel.app', // your frontend domain
+];
+
 app.use(cors({
-    origin: process.env.FRONTEND_URL || 'https://waquarahmad.vercel.app/', 
-  credentials: true,
+  origin: function (origin, callback) {
+    if (!origin || allowedOrigins.includes(origin)) {
+      callback(null, true);
+    } else {
+      callback(new Error('Not allowed by CORS'));
+    }
+  },
+  credentials: true, // if you're using cookies or auth headers
 }));
 app.use(express.json());
 app.use(express.urlencoded({extended: false}))
