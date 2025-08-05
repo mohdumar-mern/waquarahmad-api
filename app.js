@@ -18,7 +18,7 @@ import profileRoutes from './routes/profileRoutes.js';
 const app = express();
 
 // Allowed frontend origin
-const allowedOrigins = ['https://waquarahmad.vercel.app']; // replace with your frontend domain
+const allowedOrigins = ['https://waquarahmad.vercel.app', 'http://localhost:3000']; // replace with your frontend domain
 
 // Proper CORS setup
 app.use(cors({
