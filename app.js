@@ -15,7 +15,6 @@ import projectRoutes from './routes/projectRoutes.js'
 import serviceRoutes from './routes/serviceRoutes.js';
 import skillRoutes from './routes/skillRoutes.js';
 import profileRoutes from './routes/profileRoutes.js';
-import { corsOptions } from './config/corsOptions.js';
 
 const app = express();
 
@@ -24,8 +23,10 @@ app.set("view engine", "ejs");
 
   
 // Middleware
-app.use(cors(corsOptions));
-
+app.use(cors({
+    origin: process.env.FRONTEND_URL || 'https://waquarahmad.vercel.app/', 
+  credentials: true,
+}));
 app.use(express.json());
 app.use(express.urlencoded({extended: false}))
 app.use(morgan('dev'));
